@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package models;
+package autonoma.models;
 
 /**
  *
@@ -10,10 +10,11 @@ package models;
  * @since 20250405
  * @version 1.0
  */
-public class Motor1000 extends Motor {
+public class LlantasBaratas extends Llanta {
 
-    public Motor1000() {
-        this.velocidadMaxima = 100;
+    public LlantasBaratas() {
+        this.limitepatinaje = 50;
     }
+    
     
 }

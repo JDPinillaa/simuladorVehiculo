@@ -2,18 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package models;
+package autonoma.exceptions;
 
 /**
  *
  * @author juand
- * @since 20250405
- * @version 1.0
  */
-public class LlantasBuenas extends Llanta {
+public class CarroApagadoException extends Exception {
 
-    public LlantasBuenas() {
-        this.limitepatinaje = 110;
+    public CarroApagadoException(String message) {
+        super(message);
     }
     
 }
