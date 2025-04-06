@@ -13,7 +13,7 @@ package autonoma.models;
 public class LlantasBonitas extends Llanta {
 
     public LlantasBonitas() {
-        this.limitepatinaje = 70;
+        this.limitePatinaje = 70;
     }
     
 }

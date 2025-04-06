@@ -7,9 +7,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            // Crear instancias de Motor y Llanta (debes implementar estas clases)
-            Motor motor = new Motor3000(); // Ejemplo: velocidad máxima de 200 km/h
-            Llanta llantas = new LlantasBaratas(); // Ejemplo: límite de patinaje de 50 km/h
+            
+            Motor motor = new Motor3000(); 
+            Llanta llantas = new LlantasBaratas(); 
 
             Carro carro = new Carro(motor, llantas);
 

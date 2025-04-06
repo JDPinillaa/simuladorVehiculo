@@ -89,7 +89,7 @@ public class Carro {
             return;
         }
 
-        if (velocidadActual > llantas.getLimitepatinaje() || kmh > velocidadActual || kmh >= 30) {
+        if (velocidadActual > llantas.getLimitePatinaje() || kmh > velocidadActual || kmh >= 30) {
             haPatinado = true;
             throw new CarroHaPatinadoException("¡Patinazo! El frenado fue muy brusco.");
         }

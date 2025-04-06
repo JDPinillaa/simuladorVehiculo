@@ -11,10 +11,10 @@ package autonoma.models;
  * @version 1.0
  */
 public abstract class Llanta {
-    protected int limitepatinaje;
+    protected int limitePatinaje;
 
-    public int getLimitepatinaje() {
-        return limitepatinaje;
+    public int getLimitePatinaje() {
+        return limitePatinaje;
     }
     
     
