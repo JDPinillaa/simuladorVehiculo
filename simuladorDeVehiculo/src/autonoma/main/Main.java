@@ -2,6 +2,7 @@ package autonoma.main;
 
 import autonoma.models.*;
 import autonoma.exceptions.*;
+import autonoma.views.*;
 
 public class Main {
 
@@ -36,5 +37,13 @@ public class Main {
         } catch (CarroHaPatinadoException e) {
             System.err.println("Error: " + e.getMessage());
         }
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Cabina().setVisible(true);
+            }
+        });
+        
+        
     }
 }
