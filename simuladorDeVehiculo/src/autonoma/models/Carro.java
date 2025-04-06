@@ -4,6 +4,7 @@
  */
 package autonoma.models;
 import autonoma.exceptions.*;
+import javax.swing.JOptionPane;
 
 /**
  * Clase que representa un carro.
@@ -32,7 +33,7 @@ public class Carro {
     public void encender() throws CarroYaEncendidoException {
         if (encendido) throw new CarroYaEncendidoException("El vehículo ya está encendido.");
         encendido = true;
-        System.out.println("Vehículo encendido.");
+        JOptionPane.showMessageDialog(null, "Motor Encendido correctamente", "Motor encendido", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void apagar() throws CarroYaApagadoException, CarroAccidentadoException {
@@ -44,7 +45,7 @@ public class Carro {
             throw new CarroAccidentadoException("¡Accidente! No se puede apagar a esa velocidad.");
         }
         encendido = false;
-        System.out.println("Vehículo apagado.");
+        JOptionPane.showMessageDialog(null, "Motor apagado correctamente", "Motor apagado", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void acelerar(int kmh) throws CarroApagadoException, CarroAccidentadoException {
@@ -56,7 +57,7 @@ public class Carro {
             velocidadActual = 0;
             throw new CarroAccidentadoException("¡El motor falló! Aceleró más de lo permitido.");
         }
-        System.out.println("Acelerando " + kmh + " km/h. Velocidad actual: " + velocidadActual);
+        JOptionPane.showMessageDialog(null, "Acelerando " + kmh + " km/h. Velocidad actual: " + velocidadActual, "Acelerando", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void frenar(int kmh) throws CarroApagadoException, CarroDetenidoException, CarroHaPatinadoException, CarroAccidentadoException {
@@ -64,19 +65,18 @@ public class Carro {
         if (velocidadActual == 0) throw new CarroDetenidoException("El vehículo ya está detenido.");
 
         if (haPatinado) {
-            System.out.println("El vehículo está patinando, no puedes frenar más hasta detenerse.");
+            JOptionPane.showMessageDialog(null, "El vehículo está patinando, no puedes frenar más hasta detenerse.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (kmh >= 30 || velocidadActual - kmh < 0) {
             haPatinado = true;
-            throw new CarroHaPatinadoException("¡El vehículo patinó al frenar!");
+            throw new CarroHaPatinadoException("¡El carro patinó al frenar!");
         }
 
         velocidadActual -= kmh;
         if (velocidadActual == 0) haPatinado = false;
-
-        System.out.println("Frenando " + kmh + " km/h. Velocidad actual: " + velocidadActual);
+        JOptionPane.showMessageDialog(null, "Frenando " + kmh + " km/h. Velocidad actual: " + velocidadActual, "Frenando", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void frenarBruscamente(int kmh) throws CarroHaPatinadoException, CarroApagadoException, CarroDetenidoException, CarroAccidentadoException {
@@ -85,7 +85,7 @@ public class Carro {
         if (velocidadActual == 0) throw new CarroDetenidoException("El vehículo está detenido.");
 
         if (haPatinado) {
-            System.out.println("No puedes frenar bruscamente mientras patinas.");
+            JOptionPane.showMessageDialog(null, "No puedes frenar bruscamente mientras patinas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -100,15 +100,17 @@ public class Carro {
             haPatinado = false;
         }
 
-        System.out.println("Frenado brusco. Velocidad actual: " + velocidadActual);
+        JOptionPane.showMessageDialog(null, "Frenado brusco. Velocidad actual: " + velocidadActual, "Frenado Brusco", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void mostrarEstado() {
-        System.out.println("=== Estado del Vehículo ===");
-        System.out.println("Encendido: " + encendido);
-        System.out.println("Velocidad Actual: " + velocidadActual + " km/h");
-        System.out.println("Patinando: " + haPatinado);
-        System.out.println("Accidentado: " + seHaAccidentado);
-        System.out.println("===========================");
+        JOptionPane.showMessageDialog(null, 
+            "=== Estado del Vehículo ===\n" +
+            "Encendido: " + encendido + "\n" +
+            "Velocidad Actual: " + velocidadActual + " km/h\n" +
+            "Patinando: " + haPatinado + "\n" +
+            "Accidentado: " + seHaAccidentado + "\n" +
+            "===========================", 
+            "Estado del Vehículo", JOptionPane.INFORMATION_MESSAGE);
     }
 }

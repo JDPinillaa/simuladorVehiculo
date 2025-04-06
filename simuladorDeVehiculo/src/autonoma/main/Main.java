@@ -1,3 +1,6 @@
+package autonoma.main;
+
+
 import autonoma.models.*;
 import autonoma.exceptions.*;
 import autonoma.views.*;
@@ -40,9 +43,18 @@ public class Main {
             carro.acelerar(50);
             carro.frenar(20);
             carro.mostrarEstado();
-
+            
+        } catch (CarroYaEncendidoException e) {
+             System.err.println("Error: " + e.getMessage());
+        } catch (CarroApagadoException e) {
+             System.err.println("Error: " + e.getMessage());
+        } catch (CarroAccidentadoException e) {
+             System.err.println("Error: " + e.getMessage());
+        } catch (CarroDetenidoException e) {
+             System.err.println("Error: " + e.getMessage());
+        } catch (CarroHaPatinadoException e) {
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
+             System.err.println("Error: " + e.getMessage());
         }
 
         // Mostrar cabina

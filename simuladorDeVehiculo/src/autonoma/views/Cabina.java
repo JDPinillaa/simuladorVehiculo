@@ -27,27 +27,54 @@ public class Cabina extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        steeringWheelLabel = new javax.swing.JLabel();
+        brakeButton = new javax.swing.JLabel();
         startButton = new javax.swing.JLabel();
         stopButton = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        gasButton = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/volante1.png"))); // NOI18N
+        steeringWheelLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/volante1.png"))); // NOI18N
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // NOI18N
+        brakeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // NOI18N
+        brakeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                brakeButtonMouseClicked(evt);
+            }
+        });
 
         startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/startEngine-removebg-preview.png"))); // NOI18N
-
-        startButton.setToolTipText("Encender motor"); 
+        startButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                startButtonMouseClicked(evt);
+            }
+        });
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/stopEngine-removebg-preview.png"))); // NOI18N
+        stopButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                stopButtonMouseClicked(evt);
+            }
+        });
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // NOI18N
+        gasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // NOI18N
+        gasButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gasButtonMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/informacion-removebg-preview.png"))); // NOI18N
+        jLabel1.setText("Info de conduccion");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -57,17 +84,20 @@ public class Cabina extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(jLabel1)
+                        .addComponent(steeringWheelLabel)
                         .addGap(56, 56, 56)
-                        .addComponent(startButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stopButton))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(startButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(stopButton))
+                            .addComponent(jLabel1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(153, 153, 153)
-                        .addComponent(jLabel2)
+                        .addComponent(brakeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(gasButton)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,18 +105,20 @@ public class Cabina extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(steeringWheelLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(stopButton)
                             .addComponent(startButton))
-                        .addGap(52, 52, 52)))
+                        .addGap(26, 26, 26)))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
+                    .addComponent(gasButton)
+                    .addComponent(brakeButton))
                 .addGap(124, 124, 124))
         );
 
@@ -106,6 +138,26 @@ public class Cabina extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void startButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startButtonMouseClicked
+
+    private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stopButtonMouseClicked
+
+    private void gasButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gasButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gasButtonMouseClicked
+
+    private void brakeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brakeButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_brakeButtonMouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -113,11 +165,12 @@ public class Cabina extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel brakeButton;
+    private javax.swing.JLabel gasButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel startButton;
+    private javax.swing.JLabel steeringWheelLabel;
     private javax.swing.JLabel stopButton;
     // End of variables declaration//GEN-END:variables
     
