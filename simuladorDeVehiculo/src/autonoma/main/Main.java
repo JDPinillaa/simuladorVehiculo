@@ -1,49 +1,51 @@
-package autonoma.main;
-
 import autonoma.models.*;
 import autonoma.exceptions.*;
 import autonoma.views.*;
+import autonoma.persistence.PersistenciaVehiculos;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            
-            Motor motor = new Motor3000(); 
-            Llanta llantas = new LlantasBaratas(); 
+            // Leer archivo y obtener configuración
+            String[] configuracion = PersistenciaVehiculos.leerConfiguracionVehiculo();
+            String tipoLlantas = configuracion[0]; // Bonitas
+            String tipoMotor = configuracion[1];   // 3000
 
+            // Instanciar motor
+            Motor motor;
+            if (tipoMotor.equals("3000")) {
+                motor = new Motor3000();
+            } else if (tipoMotor.equals("1000")) {
+                motor = new Motor1000();
+            } else {
+                throw new IllegalArgumentException("Tipo de motor no válido: " + tipoMotor);
+            }
+
+            // Instanciar llantas
+            Llanta llantas;
+            if (tipoLlantas.equalsIgnoreCase("Bonitas")) {
+                llantas = new LlantasBuenas();
+            } else if (tipoLlantas.equalsIgnoreCase("Baratas")) {
+                llantas = new LlantasBaratas();
+            } else {
+                throw new IllegalArgumentException("Tipo de llantas no válido: " + tipoLlantas);
+            }
+
+            // Crear el carro
             Carro carro = new Carro(motor, llantas);
 
-            // Encender el carro
+            // Usar el carro
             carro.encender();
-
-            // Acelerar el carro
             carro.acelerar(50);
-
-            // Frenar el carro
             carro.frenar(20);
-
-            // Mostrar el estado del carro
             carro.mostrarEstado();
 
-        } catch (CarroYaEncendidoException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (CarroApagadoException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (CarroAccidentadoException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (CarroDetenidoException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (CarroHaPatinadoException e) {
+        } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Cabina().setVisible(true);
-            }
-        });
-        
-        
+
+        // Mostrar cabina
+        java.awt.EventQueue.invokeLater(() -> new Cabina().setVisible(true));
     }
 }
