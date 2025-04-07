@@ -1,9 +1,8 @@
 package autonoma.main;
 
 import autonoma.models.*;
-import autonoma.exceptions.*;
-import autonoma.views.*;
 import autonoma.persistence.PersistenciaVehiculos;
+import autonoma.views.*;
 
 public class Main {
 
@@ -45,22 +44,12 @@ public class Main {
             // Crear el carro
             Carro carro = new Carro(motor, llantas);
 
-            // Usar el carro
-            carro.encender();
-            carro.acelerar(50);
-            carro.frenar(20);
-            carro.mostrarEstado();
+            // Mostrar cabina
+            java.awt.EventQueue.invokeLater(() -> new Cabina(carro).setVisible(true));
 
-        } catch (CarroYaEncendidoException | CarroApagadoException |
-                 CarroAccidentadoException | CarroDetenidoException |
-                 CarroHaPatinadoException e) {
-            System.err.println("Error: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Error general: " + e.getMessage());
         }
-
-        // Mostrar cabina
-        java.awt.EventQueue.invokeLater(() -> new Cabina().setVisible(true));
     }
 }
 

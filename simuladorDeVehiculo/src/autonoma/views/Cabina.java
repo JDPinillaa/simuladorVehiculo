@@ -3,19 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package autonoma.views;
+import autonoma.exceptions.*;
+import autonoma.models.Carro;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author juand
  */
 public class Cabina extends javax.swing.JFrame {
+    
+    private Carro carro;
 
     /**
      * Creates new form Cabina
      */
-    public Cabina() {
+    public Cabina(Carro carro) {
+        this.carro = carro;
         initComponents();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -45,12 +53,24 @@ public class Cabina extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 brakeButtonMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                brakeButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                brakeButtonMouseExited(evt);
+            }
         });
 
         startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/startEngine-removebg-preview.png"))); // NOI18N
         startButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 startButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                startButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                startButtonMouseExited(evt);
             }
         });
 
@@ -59,12 +79,24 @@ public class Cabina extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 stopButtonMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                stopButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                stopButtonMouseExited(evt);
+            }
         });
 
         gasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // NOI18N
         gasButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 gasButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                gasButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                gasButtonMouseExited(evt);
             }
         });
 
@@ -139,24 +171,82 @@ public class Cabina extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseClicked
-        // TODO add your handling code here:
+        try {
+            carro.encender();
+        } catch (CarroYaEncendidoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_startButtonMouseClicked
 
     private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked
-        // TODO add your handling code here:
+        try {
+            carro.apagar();
+        } catch (CarroYaApagadoException | CarroAccidentadoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_stopButtonMouseClicked
 
     private void gasButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gasButtonMouseClicked
-        // TODO add your handling code here:
+        try {
+            int aAcelerar = Integer.parseInt(JOptionPane.showInputDialog("Cuanto desea acelerar? : "));
+            carro.acelerar(aAcelerar);
+        } catch (CarroApagadoException | CarroAccidentadoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_gasButtonMouseClicked
 
     private void brakeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brakeButtonMouseClicked
-        // TODO add your handling code here:
+        try {
+            int aFrenar = Integer.parseInt(JOptionPane.showInputDialog("Cuanto desea frenar? : "));
+            carro.frenar(aFrenar); 
+        } catch (CarroApagadoException | CarroDetenidoException | CarroHaPatinadoException | CarroAccidentadoException e ) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_brakeButtonMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
+        carro.mostrarEstado();
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void startButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseEntered
+        // TODO add your handling code here:
+        startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/startEntered.png"))); // Cambia a un ícono más oscuro
+    }//GEN-LAST:event_startButtonMouseEntered
+
+    private void startButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startButtonMouseExited
+        // TODO add your handling code here:
+        startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/startEngine-removebg-preview.png"))); // Restaura el ícono original
+    }//GEN-LAST:event_startButtonMouseExited
+
+    private void stopButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseEntered
+        // TODO add your handling code here:
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/stopEntered.png"))); // Cambia a un ícono más oscuro
+    }//GEN-LAST:event_stopButtonMouseEntered
+
+    private void stopButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseExited
+        // TODO add your handling code here:
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/stopEngine-removebg-preview.png"))); // Restaura el ícono original
+    }//GEN-LAST:event_stopButtonMouseExited
+
+    private void gasButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gasButtonMouseEntered
+        // TODO add your handling code here:
+        gasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedalEntered.png"))); // Cambia a un ícono más oscuro
+    }//GEN-LAST:event_gasButtonMouseEntered
+
+    private void gasButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gasButtonMouseExited
+        // TODO add your handling code here:
+        gasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // Restaura el ícono original
+    }//GEN-LAST:event_gasButtonMouseExited
+
+    private void brakeButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brakeButtonMouseEntered
+        // TODO add your handling code here:
+        brakeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedalEntered.png"))); // Cambia a un ícono más oscuro
+    }//GEN-LAST:event_brakeButtonMouseEntered
+
+    private void brakeButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brakeButtonMouseExited
+        // TODO add your handling code here:
+        brakeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/images/pedal.png"))); // Restaura el ícono original
+    }//GEN-LAST:event_brakeButtonMouseExited
 
     /**
      * @param args the command line arguments
