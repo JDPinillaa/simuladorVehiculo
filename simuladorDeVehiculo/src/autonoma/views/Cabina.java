@@ -5,6 +5,11 @@
 package autonoma.views;
 import autonoma.exceptions.*;
 import autonoma.models.Carro;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 
 /**
@@ -175,7 +180,14 @@ public class Cabina extends javax.swing.JFrame {
             carro.encender();
         } catch (CarroYaEncendidoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(Cabina.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Cabina.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(Cabina.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_startButtonMouseClicked
 
     private void stopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stopButtonMouseClicked
@@ -183,6 +195,12 @@ public class Cabina extends javax.swing.JFrame {
             carro.apagar();
         } catch (CarroYaApagadoException | CarroAccidentadoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(Cabina.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Cabina.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(Cabina.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_stopButtonMouseClicked
 
@@ -192,13 +210,23 @@ public class Cabina extends javax.swing.JFrame {
             carro.acelerar(aAcelerar);
         } catch (CarroApagadoException | CarroAccidentadoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            JOptionPane.showMessageDialog(this, "Error al reproducir el sonido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_gasButtonMouseClicked
 
     private void brakeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brakeButtonMouseClicked
         try {
             int aFrenar = Integer.parseInt(JOptionPane.showInputDialog("Cuanto desea frenar? : "));
-            carro.frenar(aFrenar); 
+            if(aFrenar>30){
+                carro.frenarBruscamente(aFrenar);
+            }
+            else{
+                carro.frenar(aFrenar); 
+
+            }
         } catch (CarroApagadoException | CarroDetenidoException | CarroHaPatinadoException | CarroAccidentadoException e ) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
