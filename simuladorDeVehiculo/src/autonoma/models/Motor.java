@@ -5,20 +5,28 @@
 package autonoma.models;
 
 /**
- *
+ * Clase abstracta que representa un Motor.
+ * Define la velocidad máxima que un motor puede alcanzar.
+ * 
+ * Esta clase debe ser extendida por clases concretas que representen tipos específicos de motores.
+ * 
  * @author juand
  * @since 20250405
  * @version 1.0
  */
 public abstract class Motor {
+
+    /**
+     * Velocidad máxima que el motor puede alcanzar, en km/h.
+     */
     protected int velocidadMaxima;
 
-    
-
-    public int getVelocidadMaxima(){
+    /**
+     * Obtiene la velocidad máxima del motor.
+     * 
+     * @return La velocidad máxima en km/h.
+     */
+    public int getVelocidadMaxima() {
         return velocidadMaxima;
     }
-    
-    
-    
 }

@@ -218,19 +218,17 @@ public class Cabina extends javax.swing.JFrame {
     }//GEN-LAST:event_gasButtonMouseClicked
 
     private void brakeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_brakeButtonMouseClicked
-        try {
-            int aFrenar = Integer.parseInt(JOptionPane.showInputDialog("Cuanto desea frenar? : "));
-            if(aFrenar>30){
-                carro.frenarBruscamente(aFrenar);
-            }
-            else{
-                carro.frenar(aFrenar); 
-
-            }
-        } catch (CarroApagadoException | CarroDetenidoException | CarroHaPatinadoException | CarroAccidentadoException e ) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_brakeButtonMouseClicked
+    try {
+        int aFrenar = Integer.parseInt(JOptionPane.showInputDialog("¿Cuánto desea frenar? : "));
+        carro.frenar(aFrenar); 
+    } catch (CarroApagadoException | CarroDetenidoException | CarroHaPatinadoException | CarroAccidentadoException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        JOptionPane.showMessageDialog(this, "Error al reproducir el sonido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}//GEN-LAST:event_brakeButtonMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         carro.mostrarEstado();

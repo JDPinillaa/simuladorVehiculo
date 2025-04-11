@@ -14,19 +14,51 @@ import javax.swing.JOptionPane;
 
 /**
  * Clase que representa un carro.
+ * Contiene la lógica para encender, apagar, acelerar, frenar y mostrar el estado del vehículo.
+ * También maneja situaciones como accidentes y patinaje.
  * 
  * @author juand
  * @since 20250402
  * @version 1.1
  */
 public class Carro {
+
+    /**
+     * Motor del carro.
+     */
     private Motor motor;
+
+    /**
+     * Llantas del carro.
+     */
     private Llanta llantas;
+
+    /**
+     * Estado del motor (encendido o apagado).
+     */
     private boolean encendido;
+
+    /**
+     * Velocidad actual del carro en km/h.
+     */
     private int velocidadActual;
+
+    /**
+     * Indica si el carro está patinando.
+     */
     private boolean haPatinado;
+
+    /**
+     * Indica si el carro ha sufrido un accidente.
+     */
     private boolean seHaAccidentado;
-    
+
+    /**
+     * Constructor de la clase Carro.
+     * 
+     * @param motor Motor del carro.
+     * @param llantas Llantas del carro.
+     */
     public Carro(Motor motor, Llanta llantas) {
         this.motor = motor;
         this.llantas = llantas;
@@ -35,20 +67,36 @@ public class Carro {
         this.haPatinado = false;
         this.seHaAccidentado = false;
     }
-    
+
+    /**
+     * Enciende el motor del carro.
+     * 
+     * @throws CarroYaEncendidoException Si el carro ya está encendido.
+     * @throws UnsupportedAudioFileException Si el archivo de audio no es compatible.
+     * @throws IOException Si ocurre un error al cargar el archivo de audio.
+     * @throws LineUnavailableException Si no se puede reproducir el audio.
+     */
     public void encender() throws CarroYaEncendidoException, UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (encendido) throw new CarroYaEncendidoException("El vehículo ya está encendido.");
         encendido = true;
         try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(
             getClass().getResourceAsStream("/autonoma/sounds/startEngine.wav"))) {
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioIn);
-        clip.start();
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
         }
         JOptionPane.showMessageDialog(null, "Motor Encendido correctamente", "Motor encendido", JOptionPane.INFORMATION_MESSAGE);
-
     }
 
+    /**
+     * Apaga el motor del carro.
+     * 
+     * @throws CarroYaApagadoException Si el carro ya está apagado.
+     * @throws CarroAccidentadoException Si el carro está accidentado.
+     * @throws UnsupportedAudioFileException Si el archivo de audio no es compatible.
+     * @throws IOException Si ocurre un error al cargar el archivo de audio.
+     * @throws LineUnavailableException Si no se puede reproducir el audio.
+     */
     public void apagar() throws CarroYaApagadoException, CarroAccidentadoException, UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (!encendido) throw new CarroYaApagadoException("El vehículo ya está apagado.");
         if (velocidadActual > 60) {
@@ -67,6 +115,16 @@ public class Carro {
         JOptionPane.showMessageDialog(null, "Motor apagado correctamente", "Motor apagado", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Acelera el carro en una cantidad específica de km/h.
+     * 
+     * @param kmh Cantidad de km/h a acelerar.
+     * @throws CarroApagadoException Si el carro está apagado.
+     * @throws CarroAccidentadoException Si el carro está accidentado.
+     * @throws UnsupportedAudioFileException Si el archivo de audio no es compatible.
+     * @throws IOException Si ocurre un error al cargar el archivo de audio.
+     * @throws LineUnavailableException Si no se puede reproducir el audio.
+     */
     public void acelerar(int kmh) throws CarroApagadoException, CarroAccidentadoException, UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (!encendido) throw new CarroApagadoException("No se puede acelerar con el vehículo apagado.");
         velocidadActual += kmh;
@@ -85,42 +143,41 @@ public class Carro {
         JOptionPane.showMessageDialog(null, "Acelerando " + kmh + " km/h. Velocidad actual: " + velocidadActual, "Acelerando", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void frenar(int kmh) throws CarroApagadoException, CarroDetenidoException, CarroHaPatinadoException, CarroAccidentadoException {
-        if (!encendido) {
-            throw new CarroApagadoException("No se puede frenar con el vehículo apagado.");
-        }
-        if (velocidadActual == 0) {
-            throw new CarroDetenidoException("El vehículo ya está detenido.");
-        }
-        if (seHaAccidentado) {
-            throw new CarroAccidentadoException("El vehículo está accidentado y no puede realizar esta acción.");
-        }
-
-        // Si el vehículo está patinando, no puede frenar hasta detenerse
+    /**
+     * Frena el carro en una cantidad específica de km/h.
+     * 
+     * @param kmh Cantidad de km/h a frenar.
+     * @throws CarroApagadoException Si el carro está apagado.
+     * @throws CarroDetenidoException Si el carro ya está detenido.
+     * @throws CarroHaPatinadoException Si el carro patina al frenar.
+     * @throws CarroAccidentadoException Si el carro está accidentado.
+     * @throws UnsupportedAudioFileException Si el archivo de audio no es compatible.
+     * @throws IOException Si ocurre un error al cargar el archivo de audio.
+     * @throws LineUnavailableException Si no se puede reproducir el audio.
+     */
+    public void frenar(int kmh) throws CarroApagadoException, CarroDetenidoException, CarroHaPatinadoException, CarroAccidentadoException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+        if (!encendido) throw new CarroApagadoException("No se puede frenar con el vehículo apagado.");
+        if (velocidadActual == 0) throw new CarroDetenidoException("El vehículo ya está detenido.");
+        if (seHaAccidentado) throw new CarroAccidentadoException("El vehículo está accidentado y no puede realizar esta acción.");
         if (haPatinado) {
             JOptionPane.showMessageDialog(null, "El vehículo está patinando, no puedes frenar más hasta detenerse.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Determinar si el frenado es brusco
         boolean esFrenadoBrusco = kmh > 30;
 
-        // Si el frenado es brusco y supera el límite de patinaje de las llantas, el vehículo patina
         if (esFrenadoBrusco && velocidadActual > llantas.getLimitePatinaje()) {
             haPatinado = true;
             throw new CarroHaPatinadoException("¡El vehículo patinó al frenar bruscamente!");
         }
 
-        // Si el frenado es mayor que la velocidad actual, el vehículo patina
         if (kmh > velocidadActual) {
             haPatinado = true;
             throw new CarroHaPatinadoException("¡El vehículo patinó porque el frenado fue mayor que la velocidad actual!");
         }
 
-        // Reducir la velocidad
         velocidadActual -= kmh;
 
-        // Si la velocidad llega a 0, el vehículo deja de patinar
         if (velocidadActual <= 0) {
             velocidadActual = 0;
             haPatinado = false;
@@ -129,29 +186,9 @@ public class Carro {
         JOptionPane.showMessageDialog(null, "Frenando " + kmh + " km/h. Velocidad actual: " + velocidadActual, "Frenando", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void frenarBruscamente(int kmh) throws CarroHaPatinadoException, CarroApagadoException, CarroDetenidoException, CarroAccidentadoException {
-        if (!encendido) throw new CarroApagadoException("El vehículo está apagado.");
-        if (velocidadActual == 0) throw new CarroDetenidoException("El vehículo está detenido.");
-
-        if (haPatinado) {
-            JOptionPane.showMessageDialog(null, "No puedes frenar bruscamente mientras patinas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (velocidadActual > llantas.getLimitePatinaje() || kmh > velocidadActual || kmh >= 30) {
-            haPatinado = true;
-            throw new CarroHaPatinadoException("¡Patinazo! El frenado fue muy brusco.");
-        }
-
-        velocidadActual -= kmh;
-        if (velocidadActual <= 0) {
-            velocidadActual = 0;
-            haPatinado = false;
-        }
-
-        JOptionPane.showMessageDialog(null, "Frenado brusco. Velocidad actual: " + velocidadActual, "Frenado Brusco", JOptionPane.INFORMATION_MESSAGE);
-    }
-
+    /**
+     * Muestra el estado actual del carro.
+     */
     public void mostrarEstado() {
         JOptionPane.showMessageDialog(null, 
             "=== Estado del Vehículo ===\n" +
