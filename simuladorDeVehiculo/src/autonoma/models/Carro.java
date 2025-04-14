@@ -103,6 +103,12 @@ public class Carro {
             seHaAccidentado = true;
             encendido = false;
             velocidadActual = 0;
+            try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                getClass().getResourceAsStream("/autonoma/sounds/accident.wav"))) {
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                clip.start();
+            }
             throw new CarroAccidentadoException("¡Accidente! No se puede apagar a esa velocidad.");
         }
         encendido = false;
@@ -160,6 +166,12 @@ public class Carro {
         if (velocidadActual == 0) throw new CarroDetenidoException("El vehículo ya está detenido.");
         if (seHaAccidentado) throw new CarroAccidentadoException("El vehículo está accidentado y no puede realizar esta acción.");
         if (haPatinado) {
+            try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                getClass().getResourceAsStream("/autonoma/sounds/softBrake.wav"))) {
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                clip.start();
+            }
             JOptionPane.showMessageDialog(null, "El vehículo está patinando, no puedes frenar más hasta detenerse.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -168,11 +180,23 @@ public class Carro {
 
         if (esFrenadoBrusco && velocidadActual > llantas.getLimitePatinaje()) {
             haPatinado = true;
+            try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                getClass().getResourceAsStream("/autonoma/sounds/brake.wav"))) {
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                clip.start();
+            }
             throw new CarroHaPatinadoException("¡El vehículo patinó al frenar bruscamente!");
         }
 
         if (kmh > velocidadActual) {
             haPatinado = true;
+            try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                getClass().getResourceAsStream("/autonoma/sounds/brake.wav"))) {
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                clip.start();
+            }
             throw new CarroHaPatinadoException("¡El vehículo patinó porque el frenado fue mayor que la velocidad actual!");
         }
 
